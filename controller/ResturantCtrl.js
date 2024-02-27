@@ -1,9 +1,9 @@
-import DeliveryBoy from "../models/DeliveryBoyModel.js";
+import Resturant from "../models/ResturantModel.js";
 
 
 
-const CreateDeliveryBoy = async(req,res)=>{
-    const exists = await DeliveryBoy.findOne({
+const CreateResturant = async(req,res)=>{
+    const exists = await Resturant.findOne({
         email : req?.body?.email
     })
     if (exists){
@@ -12,21 +12,28 @@ const CreateDeliveryBoy = async(req,res)=>{
         })
     }
 
-    const create = await DeliveryBoy.create({
+    const create = await Resturant.create({
         name  : req?.body?.name,
+        ownerName : req?.body?.ownerName,
         email  : req?.body?.email,
         password  : req?.body?.password,
         number  : req?.body?.number,
+        resturantType : req?.body?.resturantType,
+        timing:{
+            openAt: req?.body?.openAt,
+            closeAt: req?.body?.closeAt
+        },
+
     })
     res.send({
-        userinformation : create
+        resturantinformation : create
     })
 }
 
 
 
-const LoginDeliveryBoy = async(req,res)=>{
-    const loginUser = await DeliveryBoy.findOne({
+const LoginResturant = async(req,res)=>{
+    const loginUser = await Resturant.findOne({
         email : req?.body?.email
     })
     if(!loginUser) {
@@ -37,7 +44,7 @@ const LoginDeliveryBoy = async(req,res)=>{
     const password = await loginUser.isPasswordCorrect(req?.body?.password)
     if(password){
     return   res.send({
-        loginUser 
+        loginresturant 
     })
 }
 
@@ -49,4 +56,4 @@ const LoginDeliveryBoy = async(req,res)=>{
 
 
 
-export  { CreateDeliveryBoy , LoginDeliveryBoy}
+export  { CreateResturant , LoginResturant}

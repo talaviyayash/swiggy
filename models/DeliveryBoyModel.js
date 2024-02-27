@@ -36,7 +36,8 @@ const DeliveryBoySchema = new Schema({
     },
     order: [{
         type: mongoose.Types.ObjectId,
-        ref:'Order'}
+        ref:'Order'
+    }
     ],
 })
 
