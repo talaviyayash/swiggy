@@ -47,6 +47,35 @@ const LoginDeliveryBoy = async(req,res)=>{
         
 }
 
+const allDeliveryBoy =async (req, res) => {
+    const  approved = await DeliveryBoy.find({
+        isApproved : "approved"
+    }) 
+    const  pending = await DeliveryBoy.find({
+        isApproved : "pending"
+    }) 
+    const  rejected = await DeliveryBoy.find({
+        isApproved : "rejected"
+    }) 
+    res.send({
+        approved,
+        pending,
+        rejected
+    })
+}
 
+const DeleteDeliveryBoy =async (req, res) => {
+    const deleteDeliveryBoy = await DeliveryBoy.findByIdAndDelete(req?.body?.DeliveryBoy_id)
+    res.send({
+        "user": "User deleted"
+    })
+}
 
-export  { CreateDeliveryBoy , LoginDeliveryBoy}
+const UpdateDeliveryBoy =async (req, res) => {
+    const deleteUser = await DeliveryBoy.findByIdAndUpdate(req?.body?.DeliveryBoy_id , {isApproved:req?.body?.isApproved })
+    res.send({
+        "user": "User Updated"
+    })
+}
+
+export  { CreateDeliveryBoy,allDeliveryBoy , LoginDeliveryBoy,DeleteDeliveryBoy , UpdateDeliveryBoy}

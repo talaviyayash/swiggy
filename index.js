@@ -5,7 +5,9 @@ import cors from "cors";
 import user from './route/userRoute.js'
 import delivery from './route/DeliveryBoyRoute.js'
 import resturant from './route/ResturantRoute.js'
-import product from './route/ResturantRoute.js'
+import product from './route/ProductRoute.js'
+import admin from './route/AdminRoute.js'
+import category from './route/CategoryRoute.js'
 dotenv.config()
 const app = express();
 app.use(express.json())
@@ -15,6 +17,8 @@ app.use("/api/user",user)
 app.use("/api/delivery",delivery)
 app.use("/api/resturant",resturant)
 app.use("/api/product",product)
+app.use("/api/admin",admin)
+app.use("/api/category",category)
 app.listen(process.env.PORT , ()=>{
     console.log(`runing on ${process.env.PORT}` )
 })

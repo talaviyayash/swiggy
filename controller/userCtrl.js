@@ -7,7 +7,7 @@ const CreateUser = async(req,res)=>{
     })
     if (exists){
         return res.send({
-            "email":"change"
+            "email":"change email"
         })
     }
 
@@ -43,4 +43,19 @@ const LoginUser = async(req,res)=>{
         
 }
 
-export { CreateUser , LoginUser}
+
+const DeleteUser =async (req, res) => {
+    const deleteUser = await User.findByIdAndDelete(req?.body?.User_id)
+    res.send({
+        "user": "User deleted"
+    })
+}
+
+const AllUser = async(req ,res)=>{
+    const exists = await User.find()
+    return res.send({
+        "User": exists
+    })
+}
+
+export { CreateUser , LoginUser ,AllUser ,DeleteUser}

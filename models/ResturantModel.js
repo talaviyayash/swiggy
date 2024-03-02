@@ -16,6 +16,10 @@ const resturantSchema = mongoose.Schema({
     number:{
         type:Number,
     },
+    isActive : {
+        type : Boolean
+    }
+    ,
     resturantType:{
         type:String,
     },

@@ -44,7 +44,7 @@ const LoginResturant = async(req,res)=>{
     const password = await loginUser.isPasswordCorrect(req?.body?.password)
     if(password){
     return   res.send({
-        loginresturant 
+        loginUser 
     })
 }
 
@@ -55,5 +55,37 @@ const LoginResturant = async(req,res)=>{
 }
 
 
+const FetchAll = async (req, res) => {
+    const  featchAll = await Resturant.find()
+    return res.send({
+        "All Resturant": featchAll
+    })
+}
 
-export  { CreateResturant , LoginResturant}
+const UpdateResturant= async (req, res) => {
+    const updatedResturent = await Resturant.findByIdAndUpdate(req?.body?.Resturant_id , {
+        isApproved : req?.body?.isApproved
+    })
+    req.send({
+        "user": "Updated Successfully"
+    })
+}
+
+
+const FeatchResturant = async (req, res) => {
+    const  featchAll = await Resturant.find({
+        isApproved : "Approved"
+    })
+    return res.send({
+        "All Resturant": featchAll
+    })
+}
+
+const DeleteResturant = async (req, res) => {
+    const  featchAll = await Resturant.findByIdAndDelete(req?.body?.Resturant_id)
+    return res.send({
+        "ResturantDelete": "successfull"
+    })
+}
+
+export  { CreateResturant , LoginResturant  ,FetchAll,UpdateResturant,FeatchResturant , DeleteResturant }

@@ -1,6 +1,7 @@
 import Category from "../models/CategoryModel.js";
 
 
+//Adding Category 
 
 const CreateCategory = async(req,res)=>{
 
@@ -15,6 +16,16 @@ const CreateCategory = async(req,res)=>{
 }
 
 
+// featch All catagory with Resturent Id 
+
+const FeatchAll = async(req,res)=>{
+    const AllFeatch = await Category.find({
+        Resturant : req?.query?.Resturant_id
+    })
+    res.send({
+        AllProduct : AllFeatch
+    })
+}
 
 
-export  { CreateCategory }
+export  { CreateCategory ,FeatchAll }
