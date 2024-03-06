@@ -8,4 +8,6 @@ router.route('/signup').get(CreateAdmin)
 router.route('/signin').get(LoginAdmin)
 
 
+
+
 export default router
