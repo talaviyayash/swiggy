@@ -1,5 +1,5 @@
 import Admin from "../models/AdminModel.js";
-
+import jwt  from "jsonwebtoken";
 const CreateAdmin = async (req, res) => {
   const exists = await Admin.findOne({
     email: req?.body?.email,
@@ -26,19 +26,67 @@ const LoginAdmin = async (req, res) => {
   });
   if (!loginAdmin) {
     return res.send({
-      login: "failed",
+      login: false,
     });
   }
   const password = await loginAdmin.isPasswordCorrect(req?.body?.password);
-  if (password) {
+  if (!password) {
     return res.send({
-      loginAdmin,
+      login: false
     });
+    
   }
+    const { accessToken , refreshToken} = await generateAccesssAndRefreshToken(loginAdmin._id)
+      const AdminFind = await Admin.findById(loginAdmin._id).select("-password -refreshToken")
+      const options={
+        httpOnly : true,
+        secure : true
+      }
 
-  return res.send({
-    login: "failed",
-  });
+    return res
+    .cookie("accessToken", accessToken ,options )
+    .cookie("refreshToken", refreshToken ,options )
+    .json({
+      login : true,
+      AdminFind,
+      accessToken,
+      refreshToken
+    });
 };
 
-export { CreateAdmin, LoginAdmin };
+
+const generateAccesssAndRefreshToken = async(_id) => {
+      const AdminFind = await Admin.findById(_id)
+      const accessToken = await AdminFind.generateAccessToken()
+      const refreshToken = await AdminFind.generateRefreshToken()
+      userFind.refreshToken=refreshToken
+      userFind.save({validateBeforeSave: false})
+      return { accessToken , refreshToken}
+    }
+
+
+    const RefreshTokenEndPoint = async (req, res)=> {
+      const refreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken || req?.header("Authorization")?.replace("Bearer ","")
+      if(!refreshToken){
+        return res.send({
+          "Token": "UnAuthorized",
+        });
+      }
+      const veriftoken = jwt.verify(refreshToken , process.env.REFRESH_TOKEN_SECRET)
+
+      const AdminFind = await Admin.findById(veriftoken._id).select("-password -refreshToken")
+      if (!AdminFind) {
+        return res.send({
+          "Token": "UnAuthorized",
+        });
+      }
+      const accessToken = await AdminFind.generateAccessToken()
+
+      return res.send({
+        login : true,
+        AdminFind,
+        accessToken
+      });
+      // req.admin = admin
+    } 
+export { CreateAdmin, LoginAdmin , RefreshTokenEndPoint };
