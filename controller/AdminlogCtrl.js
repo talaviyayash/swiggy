@@ -48,7 +48,7 @@ const LoginAdmin = async (req, res) => {
     .cookie("refreshToken", refreshToken ,options )
     .json({
       login : true,
-      AdminFind,
+      adminInfo : AdminFind ,
       accessToken,
       refreshToken
     });
@@ -84,7 +84,7 @@ const generateAccesssAndRefreshToken = async(_id) => {
 
       return res.send({
         login : true,
-        AdminFind,
+        adminInfo : AdminFind,
         accessToken
       });
       // req.admin = admin
