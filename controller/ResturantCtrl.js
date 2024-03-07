@@ -1,5 +1,15 @@
 import Resturant from "../models/ResturantModel.js";
+import jwt  from "jsonwebtoken";
 
+
+const generateAccesssAndRefreshToken = async(_id) => {
+    const resturantFind = await Resturant.findById(_id)
+    const accessToken = await resturantFind.generateAccessToken()
+    const refreshToken = await resturantFind.generateRefreshToken()
+    resturantFind.refreshToken=refreshToken
+    resturantFind.save({validateBeforeSave: false})
+    return { accessToken , refreshToken}
+  }
 
 
 const CreateResturant = async(req,res)=>{
@@ -33,24 +43,35 @@ const CreateResturant = async(req,res)=>{
 
 
 const LoginResturant = async(req,res)=>{
-    const loginUser = await Resturant.findOne({
+    const loginResturant = await Resturant.findOne({
         email : req?.body?.email
     })
-    if(!loginUser) {
+    if(!loginResturant) {
         return res.send({
-            "login" :"failed",
+            login: false,
         })
     }
-    const password = await loginUser.isPasswordCorrect(req?.body?.password)
-    if(password){
-    return   res.send({
-        loginUser 
-    })
-}
-
-    return res.send({
-        "login": "failed"
-    })
+    const password = await loginResturant.isPasswordCorrect(req?.body?.password)
+    if (!password) {
+        return res.send({
+          login: false
+        });
+      }
+      const { accessToken , refreshToken} = await generateAccesssAndRefreshToken(loginResturant._id)
+     const resturantInfo= await Resturant.findById(loginResturant._id).select("-password -refreshToken")
+     const options={
+        httpOnly : true,
+        secure : true
+      }
+      return res
+      .cookie("accessToken", accessToken ,options )
+      .cookie("refreshToken", refreshToken ,options )
+      .json({
+        login : true,
+        resturantInfo  ,
+        accessToken,
+        refreshToken
+      });
         
 }
 
@@ -88,4 +109,38 @@ const DeleteResturant = async (req, res) => {
     })
 }
 
-export  { CreateResturant , LoginResturant  ,FetchAll,UpdateResturant,FeatchResturant , DeleteResturant }
+
+
+const RefreshTokenEndPoint  = async (req, res) => {
+    const refreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken || req?.header("Authorization")?.replace("Bearer ","")
+    if(!refreshToken){
+      return res.send({
+        login : false,
+        "Token": "UnAuthorized",
+      });
+    }
+    const veriftoken = jwt.verify(refreshToken , process.env.REFRESH_TOKEN_SECRET)
+
+    const resturantFind = await Resturant.findById(veriftoken._id).select("-password")
+    if (!resturantFind) {
+      return res.send({
+        login : false,
+        "Token": "UnAuthorized",
+      });
+    }
+    if(!refreshToken == resturantFind.refreshToken){
+        return res.send({
+          login : false,
+            "Token": "UnAuthorized",
+          });
+      }
+    const resturantInfo = await Resturant.findById(veriftoken._id).select("-password -refreshToken")
+    const accessToken = await resturantInfo.generateAccessToken()
+
+    return res.send({
+      login : true,
+      resturantInfo,
+      accessToken
+    });
+}
+export  { CreateResturant , LoginResturant  ,FetchAll,UpdateResturant,FeatchResturant , DeleteResturant ,RefreshTokenEndPoint}
