@@ -59,8 +59,8 @@ const generateAccesssAndRefreshToken = async(_id) => {
       const AdminFind = await Admin.findById(_id)
       const accessToken = await AdminFind.generateAccessToken()
       const refreshToken = await AdminFind.generateRefreshToken()
-      userFind.refreshToken=refreshToken
-      userFind.save({validateBeforeSave: false})
+      AdminFind.refreshToken=refreshToken
+      AdminFind.save({validateBeforeSave: false})
       return { accessToken , refreshToken}
     }
 
