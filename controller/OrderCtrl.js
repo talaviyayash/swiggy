@@ -1,7 +1,6 @@
 import Order from "../models/OrderModel.js";
 
 
-
 const CreateOrder = async(req,res)=>{
 
     const create = await Order.create({
@@ -31,4 +30,4 @@ const allOrder = async(req,res)=>{
 }
 
 
-export  { CreateOrder }
+export  { CreateOrder , allOrder }

@@ -81,7 +81,7 @@ const LoginResturant = async(req,res)=>{
       .cookie("refreshToken", refreshToken ,options )
       .json({
         login : true,
-        resturantInfo  ,
+        resturantInfo,
         accessToken,
         refreshToken
       });
