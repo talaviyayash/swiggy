@@ -40,19 +40,29 @@ const resturantSchema = mongoose.Schema({
         area: {
             type:String
         },
-    },
-    category: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref:'Category'
-      }  
-    ],
-    product: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref:'Product'
+        fullAddress:{
+            type:String
         }
-    ],
+    },
+    bankDetail:{
+        acNo :{
+            type:String,
+        },
+        ifscCode: {
+            type:String
+        },
+        acType:{
+            type:String
+        }
+    },
+    pancardDetail:{
+        panName:{
+            type:String
+        },
+        panNo:{
+            type:String
+        }
+    },
     order: [{
         type: mongoose.Types.ObjectId,
         ref: 'Order'
@@ -65,12 +75,6 @@ const resturantSchema = mongoose.Schema({
         type: String,
         default:0
     },
-    review: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref:'Review'
-        }
-    ],
     refreshToken :{
         type: String,
         default :""

@@ -33,7 +33,20 @@ const CreateResturant = async(req,res)=>{
             openAt: req?.body?.openAt,
             closeAt: req?.body?.closeAt
         },
-
+        address:{
+            street:req?.body?.street,
+            area:req?.body?.area,
+            fulladdress:req?.body?.fullAddress
+        },
+        bankDetail:{
+            acNo :req?.body?.acNo,
+            ifscCode:req?.body?.ifscCode ,
+            acType:req?.body?.acType
+        },
+        pancardDetail:{
+            panName: req?.body?.panName,
+            panNo: req?.body?.panNo
+        }
     })
     res.send({
         resturantinformation : create
@@ -85,10 +98,34 @@ const FetchAll = async (req, res) => {
 
 const UpdateResturant= async (req, res) => {
     const updatedResturent = await Resturant.findByIdAndUpdate(req?.body?.Resturant_id , {
+        name  : req?.body?.name,
+        ownerName : req?.body?.ownerName,
+        email  : req?.body?.email,
+        password  : req?.body?.password,
+        number  : req?.body?.number,
+        resturantType : req?.body?.resturantType,
+        timing:{
+            openAt: req?.body?.openAt,
+            closeAt: req?.body?.closeAt
+        },
+        address:{
+            street:req?.body?.street,
+            area:req?.body?.area,
+            fulladdress:req?.body?.fullAddress
+        },
+        bankDetail:{
+            acNo :req?.body?.acNo,
+            ifscCode:req?.body?.ifscCode ,
+            acType:req?.body?.acType
+        },
+        pancardDetail:{
+            panName: req?.body?.panName,
+            panNo: req?.body?.panNo
+        },
         isApproved : req?.body?.isApproved
     })
     req.send({
-        "user": "Updated Successfully"
+        "Resturant": "Updated Successfully"
     })
 }
 

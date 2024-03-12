@@ -39,7 +39,7 @@ const LoginAdmin = async (req, res) => {
       const adminFind = await Admin.findById(loginAdmin._id).select("-password -refreshToken")
       const options={
         httpOnly : true,
-        secure : true
+        secure : true,
       }
     return res
     .cookie("accessToken", accessToken ,options )
@@ -65,6 +65,7 @@ const generateAccesssAndRefreshToken = async(_id) => {
 
     const RefreshTokenEndPoint = async (req, res)=> {
       const refreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken || req?.header("Authorization")?.replace("Bearer ","")
+      console.log(req?.cookies)
       if(!refreshToken){
         return res.send({
         login : false,
