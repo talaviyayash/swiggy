@@ -1,6 +1,7 @@
 import Resturant from "../models/ResturantModel.js";
 import jwt  from "jsonwebtoken";
-
+import fs from "fs";
+import uploadCloudinary from "../utils/cloudinary.js";
 
 const generateAccesssAndRefreshToken = async(_id) => {
     const resturantFind = await Resturant.findById(_id)
@@ -13,6 +14,7 @@ const generateAccesssAndRefreshToken = async(_id) => {
 
 
 const CreateResturant = async(req,res)=>{
+    // console.log(req.files.restaurant)
     const exists = await Resturant.findOne({
         email : req?.body?.email
     })
@@ -21,7 +23,7 @@ const CreateResturant = async(req,res)=>{
             "email":"exists",
         })
     }
-
+    
     const create = await Resturant.create({
         name  : req?.body?.name,
         ownerName : req?.body?.ownerName,
@@ -48,7 +50,19 @@ const CreateResturant = async(req,res)=>{
             panNo: req?.body?.panNo
         }
     })
+    const fileimg = req?.files?.restaurant
+    let url
+    let img =[]
+    for( let i=0; i<fileimg.length; i++ ){
+        fs.rename(`./temp/img/${fileimg[i].filename}`, `./temp/img/${create._id}${i}`, (err) =>  {});
+        url =await uploadCloudinary(`./temp/img/${create._id}${i}`)
+        img.push(url);
+        }
+        await Resturant.findByIdAndUpdate(create._id ,{
+            img :  img
+        })
     res.send({
+        success: true,
         resturantinformation : create
     })
 }
@@ -97,7 +111,16 @@ const FetchAll = async (req, res) => {
 }
 
 const UpdateResturant= async (req, res) => {
+    const fileimg = req?.files?.restaurant
+    let url
+    let img =[]
+    for( let i=0; i<fileimg.length; i++ ){
+        fs.rename(`./temp/img/${fileimg[i].filename}`, `./temp/img/${req?.body?.Resturant_id}${i}`, (err) =>  {});
+        url =await uploadCloudinary(`./temp/img/${req?.body?.Resturant_id}${i}`)
+        img.push(url);
+        }
     const updatedResturent = await Resturant.findByIdAndUpdate(req?.body?.Resturant_id , {
+        img ,
         name  : req?.body?.name,
         ownerName : req?.body?.ownerName,
         email  : req?.body?.email,
@@ -123,8 +146,9 @@ const UpdateResturant= async (req, res) => {
             panNo: req?.body?.panNo
         },
         isApproved : req?.body?.isApproved
-    })
-    req.send({
+    },{new : true})
+    
+    res.send({
         "Resturant": "Updated Successfully"
     })
 }

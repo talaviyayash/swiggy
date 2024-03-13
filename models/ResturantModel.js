@@ -20,7 +20,10 @@ const resturantSchema = mongoose.Schema({
     },
     isActive : {
         type : Boolean
-    }
+    },
+    img:[
+        {type:String}
+    ]
     ,
     resturantType:{
         type:String,
