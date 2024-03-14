@@ -26,11 +26,12 @@ const CreateRestaurant = async(req,res)=>{
     const fileimg = req?.files?.restaurant
     let url
     let img =[]
+    if(fileimg){
     for( let i=0; i<fileimg.length; i++ ){
         url =await uploadCloudinary(`./temp/img/${fileimg[i].filename}`)
         img.push(url);
         }
-    
+    }
     const create = await Restaurant.create({
         name  : req?.body?.name,
         ownerName : req?.body?.ownerName,
@@ -110,14 +111,16 @@ const UpdateRestaurant= async (req, res) => {
     const fileimg = req?.files?.restaurant
     let img =[]
     let url
-    if(fileimg.length==0){
+    if(!fileimg){
         const find =  await Restaurant.findById(req?.body?.Restaurant_id)
         img = find?.img
     }
+    else{
     for( let i=0; i<fileimg.length; i++ ){
         url =await uploadCloudinary(`./temp/img/${fileimg[i].filename}`)
         img.push(url);
         }
+    }
     const updatedResturent = await Restaurant.findByIdAndUpdate(req?.body?.Restaurant_id , {
         img ,
         name  : req?.body?.name,
