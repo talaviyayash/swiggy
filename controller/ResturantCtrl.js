@@ -23,6 +23,13 @@ const CreateResturant = async(req,res)=>{
             "email":"exists",
         })
     }
+    const fileimg = req?.files?.restaurant
+    let url
+    let img =[]
+    for( let i=0; i<fileimg.length; i++ ){
+        url =await uploadCloudinary(`./temp/img/${fileimg[i].filename}`)
+        img.push(url);
+        }
     
     const create = await Resturant.create({
         name  : req?.body?.name,
@@ -48,19 +55,9 @@ const CreateResturant = async(req,res)=>{
         pancardDetail:{
             panName: req?.body?.panName,
             panNo: req?.body?.panNo
-        }
+        },
+        img : img
     })
-    const fileimg = req?.files?.restaurant
-    let url
-    let img =[]
-    for( let i=0; i<fileimg.length; i++ ){
-        fs.rename(`./temp/img/${fileimg[i].filename}`, `./temp/img/${create._id}${i}`, (err) =>  {});
-        url =await uploadCloudinary(`./temp/img/${create._id}${i}`)
-        img.push(url);
-        }
-        await Resturant.findByIdAndUpdate(create._id ,{
-            img :  img
-        })
     res.send({
         success: true,
         resturantinformation : create
