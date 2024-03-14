@@ -25,9 +25,9 @@ const OrderSchema = new Schema({
     total: {
         type:Number,
     },
-    resturant: {
+    Restaurant: {
         type: mongoose.Types.ObjectId,
-        ref:'Resturant'
+        ref:'Restaurant'
     },
     status: {
         type: String,
@@ -42,7 +42,7 @@ const OrderSchema = new Schema({
                 type: String,
             },
     },
-    resturantReview: {
+    RestaurantReview: {
         type: mongoose.Types.ObjectId,
         ref:"Review"
     },
@@ -51,7 +51,7 @@ const OrderSchema = new Schema({
         ref:'Review'
     },
       isreviewGiven:{
-        forResturant:{
+        forRestaurant:{
             type:Boolean,
             default:false
         },

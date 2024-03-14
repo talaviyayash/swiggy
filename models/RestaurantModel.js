@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt  from "jsonwebtoken";
 
-const resturantSchema = mongoose.Schema({
+const RestaurantSchema = mongoose.Schema({
     name: {
         type: String,
     },
@@ -25,7 +25,7 @@ const resturantSchema = mongoose.Schema({
         {type:String}
     ]
     ,
-    resturantType:{
+    RestaurantType:{
         type:String,
     },
     timing:{
@@ -86,17 +86,17 @@ const resturantSchema = mongoose.Schema({
     timestamps : true,
 })
 
-resturantSchema.pre('save', async function (next){
+RestaurantSchema.pre('save', async function (next){
     if(!this.isModified("password")) return next()
     this.password = await bcrypt.hash(this.password , 4)
 })
 
 
-resturantSchema.methods.isPasswordCorrect = async function(password){
+RestaurantSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password)
 }
 
-resturantSchema.methods.generateAccessToken = async function(){
+RestaurantSchema.methods.generateAccessToken = async function(){
     return jwt.sign(
         {
             _id : this._id,
@@ -109,7 +109,7 @@ resturantSchema.methods.generateAccessToken = async function(){
     )
 }
 
-resturantSchema.methods.generateRefreshToken = async function(){
+RestaurantSchema.methods.generateRefreshToken = async function(){
     return jwt.sign(
         {
             _id : this._id
@@ -123,4 +123,4 @@ resturantSchema.methods.generateRefreshToken = async function(){
 
 
 
-export default mongoose.model('Resturant',resturantSchema)
+export default mongoose.model('Restaurant',RestaurantSchema)

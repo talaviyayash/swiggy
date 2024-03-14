@@ -1,4 +1,4 @@
-import { CreateResturant , LoginResturant  ,FetchAll,UpdateResturant,FeatchResturant , DeleteResturant,RefreshTokenEndPoint } from '../controller/ResturantCtrl.js';
+import { CreateRestaurant , LoginRestaurant  ,FetchAll,UpdateRestaurant,FeatchRestaurant , DeleteRestaurant,RefreshTokenEndPoint } from '../controller/ResturantCtrl.js';
 import { upload} from '../middleware/multerMiddleware.js'
 import { Router } from 'express';
 
@@ -8,17 +8,17 @@ router.route('/signup').post(upload.fields([
         name : 'restaurant',
         maxCount : 4
     }
-]),CreateResturant)
-router.route('/signin').post(LoginResturant)
+]),CreateRestaurant)
+router.route('/signin').post(LoginRestaurant)
 router.route('/fetchall').get(FetchAll)
 router.route('/update').post(upload.fields([
     {
         name : 'restaurant',
         maxCount : 2
     }
-]),UpdateResturant)
-router.route('/allapproved').get(FeatchResturant)
-router.route('/delete').post(DeleteResturant)
+]),UpdateRestaurant)
+router.route('/allapproved').get(FeatchRestaurant)
+router.route('/delete').post(DeleteRestaurant)
 router.route('/refresh').post(RefreshTokenEndPoint)
 
 

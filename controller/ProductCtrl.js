@@ -1,9 +1,9 @@
 import Product from "../models/ProductModel.js";
 import Category from "../models/CategoryModel.js";
-import Resturant from "../models/ResturantModel.js";
+import Restaurant from "../models/RestaurantModel.js";
 
 
-//Add Product and Also id push in to the Category And Resturant models
+//Add Product and Also id push in to the Category And Restaurant models
 const CreateProduct = async(req,res)=>{
 
     const create = await Product.create({
