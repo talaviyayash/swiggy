@@ -109,11 +109,14 @@ const FetchAll = async (req, res) => {
 
 const UpdateResturant= async (req, res) => {
     const fileimg = req?.files?.restaurant
-    let url
     let img =[]
+    let url
+    if(fileimg.length==0){
+        const find =  await Resturant.findById(req?.body?.Resturant_id)
+        img = find?.img
+    }
     for( let i=0; i<fileimg.length; i++ ){
-        fs.rename(`./temp/img/${fileimg[i].filename}`, `./temp/img/${req?.body?.Resturant_id}${i}`, (err) =>  {});
-        url =await uploadCloudinary(`./temp/img/${req?.body?.Resturant_id}${i}`)
+        url =await uploadCloudinary(`./temp/img/${fileimg[i].filename}`)
         img.push(url);
         }
     const updatedResturent = await Resturant.findByIdAndUpdate(req?.body?.Resturant_id , {
