@@ -14,7 +14,7 @@ router.route('/fetchall').get(FetchAll)
 router.route('/update').post(upload.fields([
     {
         name : 'restaurant',
-        maxCount : 2
+        maxCount : 4
     }
 ]),UpdateRestaurant)
 router.route('/allapproved').get(FeatchRestaurant)

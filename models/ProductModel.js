@@ -7,6 +7,9 @@ const ProductSchema = new mongoose.Schema({
     price: {
         type:Number
     },
+    img:[
+        {type:String}
+    ],
     resturnat: {
         type: mongoose.Types.ObjectId,
         ref:'Restaurant'  

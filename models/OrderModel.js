@@ -2,8 +2,7 @@ import mongoose , {Schema} from "mongoose";
 
 
 const OrderSchema = new Schema({
-    products: [
-        {
+    products: {
             product: {
               type: Schema.Types.ObjectId,
               ref: "Product",
@@ -11,10 +10,9 @@ const OrderSchema = new Schema({
             quantity: {
               type: Number,
                 default: 1,
-                  min:[1,'something wrong']
+                  min:1
             },
           },
-    ],
     customer: {
         type: mongoose.Types.ObjectId,
         ref:'User'
