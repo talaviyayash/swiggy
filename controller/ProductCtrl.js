@@ -13,7 +13,7 @@ const CreateProduct = async(req,res)=>{
         name  : req?.body?.name,
         price : req?.body?.price,
         category  : req?.body?.category_id,
-        resturnat  : req?.body?.resturnat_id,
+        restaurant  : req?.body?.restaurant_id,
         description  : req?.body?.description,
         img
     })
@@ -36,7 +36,7 @@ const CatagoryProuct = async(req,res)=>{
 const ResturentProuct = async(req,res)=>{
     const AllFeatch = await Product.aggregate([{
         $match: {
-          resturnat : req?.body?.resturnat_id
+          restaurant : req?.body?.restaurant_id
         }
       }])
       res.send({
@@ -56,7 +56,7 @@ const updatedResturent = await Product.findByIdAndUpdate(req?.body?.product_id ,
     name  : req?.body?.name,
         price : req?.body?.price,
         category  : req?.body?.category_id,
-        resturnat  : req?.body?.resturnat_id,
+        restaurant  : req?.body?.restaurant_id,
         description  : req?.body?.description,
         img
 })

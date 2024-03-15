@@ -100,6 +100,12 @@ const LoginRestaurant = async(req,res)=>{
         
 }
 
+const topRestaurant = async (req ,res) => {
+    const  featchAll = await Restaurant.find().sort({rating:-1}).limit(8)
+    return res.send({
+        "All Restaurant": featchAll
+    })
+}
 
 const FetchAll = async (req, res) => {
     const  featchAll = await Restaurant.find()
@@ -206,4 +212,4 @@ const RefreshTokenEndPoint  = async (req, res) => {
       accessToken
     });
 }
-export  { CreateRestaurant , LoginRestaurant  ,FetchAll,UpdateRestaurant,FeatchRestaurant , DeleteRestaurant ,RefreshTokenEndPoint}
+export  { CreateRestaurant,topRestaurant , LoginRestaurant  ,FetchAll,UpdateRestaurant,FeatchRestaurant , DeleteRestaurant ,RefreshTokenEndPoint}
