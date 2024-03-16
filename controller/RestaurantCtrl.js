@@ -30,7 +30,7 @@ const CreateRestaurant = async(req,res)=>{
     for( let i=0; i<fileimg.length; i++ ){
         url =await uploadCloudinary(`./temp/img/${fileimg[i].filename}`)
         img.push(url);
-        }
+        }   
     }
     const create = await Restaurant.create({
         name  : req?.body?.name,
@@ -115,6 +115,8 @@ const FetchAll = async (req, res) => {
 }
 const UpdateRestaurant= async (req, res) => {
     const fileimg = req?.files?.restaurant
+    console.log(fileimg)
+    console.log(req.body)
     let img =[]
     let url
     if(!fileimg){
