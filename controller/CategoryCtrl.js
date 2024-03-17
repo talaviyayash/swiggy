@@ -29,6 +29,7 @@ const FetchWithId = async(req,res)=>{
 
 const FetchAll = async(req,res)=>{
     const AllFetch = await Category.find()
+    console.log(AllFetch)
     res.send({
         AllProduct : AllFetch
     })

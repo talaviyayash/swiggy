@@ -159,7 +159,7 @@ const UpdateRestaurant= async (req, res) => {
     },{new : true})
     
     res.send({
-        "Restaurant": "Updated Successfully"
+        "RestaurantInfo": updatedResturent
     })
 }
 
