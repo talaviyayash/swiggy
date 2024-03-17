@@ -3,12 +3,11 @@ import Product from "../models/ProductModel.js";
 //Add Product and Also id push in to the Category And Restaurant models
 const CreateProduct = async(req,res)=>{
     const fileimg = req?.files?.product
+    let  img = ""
     if(fileimg){
-    const  img =await uploadCloudinary(`./temp/img/${fileimg[0]?.filename}`)
+      img =await uploadCloudinary(`./temp/img/${fileimg[0]?.filename}`)
     }
-    else{
-        const img = ""
-    }
+    
     const create = await Product.create({
         name  : req?.body?.name,
         price : req?.body?.price,
@@ -52,8 +51,9 @@ const updateProduct = async (req, res) => {
     else{
         const img =await uploadCloudinary(`./temp/img/${fileimg[0]?.filename}`)
     }
-const updatedResturent = await Product.findByIdAndUpdate(req?.body?.product_id , {
-    name  : req?.body?.name,
+const updatedproduct = await Product.findByIdAndUpdate(req?.body?.product_id , {
+
+        name  : req?.body?.name,
         price : req?.body?.price,
         category  : req?.body?.category_id,
         restaurant  : req?.body?.restaurant_id,

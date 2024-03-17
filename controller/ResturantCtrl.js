@@ -30,7 +30,7 @@ const CreateRestaurant = async(req,res)=>{
     for( let i=0; i<fileimg.length; i++ ){
         url =await uploadCloudinary(`./temp/img/${fileimg[i].filename}`)
         img.push(url);
-        }   
+        }
     }
     const create = await Restaurant.create({
         name  : req?.body?.name,
@@ -100,12 +100,6 @@ const LoginRestaurant = async(req,res)=>{
         
 }
 
-const topRestaurant = async (req ,res) => {
-    const  featchAll = await Restaurant.find().sort({rating:-1}).limit(8)
-    return res.send({
-        "All Restaurant": featchAll
-    })
-}
 
 const FetchAll = async (req, res) => {
     const  featchAll = await Restaurant.find()
@@ -115,8 +109,6 @@ const FetchAll = async (req, res) => {
 }
 const UpdateRestaurant= async (req, res) => {
     const fileimg = req?.files?.restaurant
-    console.log(fileimg)
-    console.log(req.body)
     let img =[]
     let url
     if(!fileimg){
@@ -159,7 +151,7 @@ const UpdateRestaurant= async (req, res) => {
     },{new : true})
     
     res.send({
-        "RestaurantInfo": updatedResturent
+        "Restaurant": "Updated Successfully"
     })
 }
 
@@ -214,4 +206,4 @@ const RefreshTokenEndPoint  = async (req, res) => {
       accessToken
     });
 }
-export  { CreateRestaurant,topRestaurant , LoginRestaurant  ,FetchAll,UpdateRestaurant,FeatchRestaurant , DeleteRestaurant ,RefreshTokenEndPoint}
+export  { CreateRestaurant , LoginRestaurant  ,FetchAll,UpdateRestaurant,FeatchRestaurant , DeleteRestaurant ,RefreshTokenEndPoint}
